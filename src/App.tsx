@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import { Table } from './Table'
 import './App.css'
 
 function App() {
-  const [name, setName] = useState("unknown");
-
   return (
     <>
+      <text>Albums for 2026</text>
       <Table />
     </>
   )
