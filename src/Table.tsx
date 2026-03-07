@@ -8,48 +8,43 @@ type Album = {
 };
 
 interface TableProps {
+  setAlbums: (albums: Album[]) => void;
   albums: Album[];
   setComplete: (complete: boolean) => void;
   complete: boolean;
 }
 
-const renderTable = ({ albums, setComplete, complete }: TableProps) => {
-  return (<><table>
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Artist</th>
-        <th scope="col">Year</th>
-        <th scope="col">Listened</th>
-      </tr>
-    </thead>
-    <tbody>
-      {albums.map((album) => (
-        <tr key={album.title}>
-          <th scope="row">{album.title}</th>
-          <td>{album.artist}</td>
-          <td>{album.year}</td>
-          <td>
-            <input
-              type="checkbox"
-              checked={album.listened || complete}
-              onChange={async () => {
-                const response = await fetch("/albums/*/markComplete/", {
-                  method: "POST"
-                })
-                if (response.ok) {
-                  setComplete(true);
-                } else {
-                  console.error("Failed to mark album as complete", response);
-                }
-              }}
-              disabled={album.listened}
-            />
-          </td>
+const renderTable = ({ setAlbums, albums, setComplete, complete }: TableProps) => (
+  <>
+    <table className="table" style={{ margin: "20px 0" }}>
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Year</th>
+          <th scope="col">Listened</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {albums.map((album, index) => (
+          <tr key={album.title}>
+            <th scope="row">{album.title}</th>
+            <td>{album.artist}</td>
+            <td>{album.year}</td>
+            <td>
+              <input
+                type="checkbox"
+                checked={album.listened || complete}
+                onChange={async () => {
+                  setAlbums(albums.map((album, i) => i === index ? { ...album, listened: true } : album));
+                }}
+                disabled={album.listened}
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
     <button
       onClick={async () => {
         async () => {
@@ -68,8 +63,8 @@ const renderTable = ({ albums, setComplete, complete }: TableProps) => {
     >
       Submit Progress
     </button>
-  </>);
-}
+  </>
+);
 export const Table = () => {
   const [albums, setAlbums] = useState([] as Album[]);
   const [complete, setComplete] = useState(false);
@@ -78,7 +73,7 @@ export const Table = () => {
     albumMessage = "Click to load albums from API";
   } else {
     albumMessage = `Albums remaining: ${albums.filter((a) => !a.listened).length}`;
-    table = renderTable({ albums, setComplete, complete });
+    table = renderTable({ setAlbums, albums, setComplete, complete });
   }
 
   return (

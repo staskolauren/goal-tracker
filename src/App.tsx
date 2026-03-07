@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   return (
     <>
-      <text>Albums for 2026</text>
+      <header>Albums for 2026</header>
       <Table />
     </>
   )

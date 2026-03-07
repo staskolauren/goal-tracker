@@ -1,6 +1,7 @@
 export default {
   fetch(request) {
     const url = new URL(request.url);
+    const method = request.method;
 
     if (url.pathname.startsWith("/api/")) {
       return Response.json({
@@ -8,7 +9,7 @@ export default {
       });
     }
 
-    if (url.pathname.startsWith("/albums/")) {
+    if (url.pathname.startsWith("/albums/") && method === "GET") {
       return Response.json({
         albums: [
           {
@@ -45,7 +46,7 @@ export default {
       });
     }
 
-    if (url.pathname.startsWith("/albums/*/markComplete/")) {
+    if (url.pathname.startsWith("/albums/") && method === "POST") {
       return new Response(null, { status: 204 });
     }
 
