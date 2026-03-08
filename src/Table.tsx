@@ -14,7 +14,7 @@ interface TableProps {
 const renderTable = ({ setAlbums, albums, }: TableProps) => (
   <>
     <table className="table" style={{ margin: "20px 0" }}>
-      <thead style={{ position: 'sticky', top: 0, backgroundColor: '#242424', zIndex: 1, borderBottom: '1px solid #646cff' }}>
+      <thead style={{ position: 'sticky', top: '2em', backgroundColor: '#242424', zIndex: 1, borderBottom: '1px solid #646cff' }}>
         <tr>
           <th scope="col">Title</th>
           <th scope="col">Artist</th>
@@ -88,7 +88,7 @@ export const Table = () => {
 
   return (
     <>
-      <p>{loadingMessage}</p>
+      <p style={{ position: 'sticky', top: 0, backgroundColor: '#242424', zIndex: 1, padding: '10px 0' }}>{loadingMessage}</p>
       {table}
     </>
   )
