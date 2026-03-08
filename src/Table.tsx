@@ -1,27 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Album = {
   title: string;
   artist: string;
-  year: number;
   listened: boolean;
 };
 
 interface TableProps {
   setAlbums: (albums: Album[]) => void;
   albums: Album[];
-  setComplete: (complete: boolean) => void;
-  complete: boolean;
 }
 
-const renderTable = ({ setAlbums, albums, setComplete, complete }: TableProps) => (
+const renderTable = ({ setAlbums, albums, }: TableProps) => (
   <>
     <table className="table" style={{ margin: "20px 0" }}>
-      <thead>
+      <thead style={{ position: 'sticky', top: 0, backgroundColor: '#242424', zIndex: 1, borderBottom: '1px solid #646cff' }}>
         <tr>
           <th scope="col">Title</th>
           <th scope="col">Artist</th>
-          <th scope="col">Year</th>
           <th scope="col">Listened</th>
         </tr>
       </thead>
@@ -30,15 +26,13 @@ const renderTable = ({ setAlbums, albums, setComplete, complete }: TableProps) =
           <tr key={album.title}>
             <th scope="row">{album.title}</th>
             <td>{album.artist}</td>
-            <td>{album.year}</td>
             <td>
               <input
                 type="checkbox"
-                checked={album.listened || complete}
+                checked={album.listened}
                 onChange={async () => {
-                  setAlbums(albums.map((album, i) => i === index ? { ...album, listened: true } : album));
+                  setAlbums(albums.map((album, i) => i === index ? { ...album, listened: !album.listened } : album));
                 }}
-                disabled={album.listened}
               />
             </td>
           </tr>
@@ -48,14 +42,13 @@ const renderTable = ({ setAlbums, albums, setComplete, complete }: TableProps) =
     <button
       onClick={async () => {
         async () => {
-          const response = await fetch("/albums/", {
-            method: "POST",
-            body: JSON.stringify({ albums })
-          })
-          if (response.ok) {
-            setComplete(true);
-          } else {
-            console.error("Failed to update album progress", response);
+          try {
+            await fetch("/albums/", {
+              method: "POST",
+              body: JSON.stringify({ albums })
+            })
+          } catch (error) {
+            console.error("Failed to update album progress", error);
           }
         }
       }}
@@ -67,29 +60,35 @@ const renderTable = ({ setAlbums, albums, setComplete, complete }: TableProps) =
 );
 export const Table = () => {
   const [albums, setAlbums] = useState([] as Album[]);
-  const [complete, setComplete] = useState(false);
-  let albumMessage, table;
-  if (albums.length === 0) {
-    albumMessage = "Click to load albums from API";
+  const [loading, setLoading] = useState(true);
+  let loadingMessage, table;
+  if (loading) {
+    loadingMessage = "Loading albums from API...";
+    table = null;
   } else {
-    albumMessage = `Albums remaining: ${albums.filter((a) => !a.listened).length}`;
-    table = renderTable({ setAlbums, albums, setComplete, complete });
+    loadingMessage = `Albums remaining: ${albums.filter((a) => !a.listened).length}`;
+    table = renderTable({ setAlbums, albums });
   }
+  useEffect(() => {
+    // 1. Define the async function inside useEffect
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/albums/");
+        const data = await res.json() as { albums: Album[] };
+        setAlbums(data.albums);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [])
 
   return (
     <>
-      <div className="card">
-        <button
-          onClick={async () => {
-            const res = await fetch("/albums/");
-            const data = await res.json() as { albums: Album[] };
-            setAlbums(data.albums);
-          }}
-          aria-label="get albums"
-        >
-          {albumMessage}
-        </button>
-      </div>
+      <p>{loadingMessage}</p>
       {table}
     </>
   )

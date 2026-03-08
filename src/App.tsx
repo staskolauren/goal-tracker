@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   return (
     <>
-      <header>Albums for 2026</header>
+      <header>Anthony Fantano's Top 50 Albums for 2025</header>
       <Table />
     </>
   )
