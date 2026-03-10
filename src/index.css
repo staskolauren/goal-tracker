@@ -67,11 +67,44 @@ button:focus-visible {
   }
 }
 
+/* main title header styled to match container */
+.main-header {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  color: #FEF7E7;
+  font-size: 24px;
+  text-align: center;
+}
+
 .table {
+  /* ensure the table takes the full width of its container */
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   color: white;
+}
+
+/* new container to align header and table */
+.table-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header-bar {
+  position: sticky;
+  top: 0;
+  font-size: 18px;
+  background-color: #242424;
+  z-index: 1;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+
 }
 
 .table th {
