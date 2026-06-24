@@ -15,53 +15,53 @@ interface TableProps {
   count: { kevin: number; lauren: number };
 }
 
-const checkbox = (albums: Album[], setAlbums: (albums: Album[]) => void, index: number, name: 'lauren' | 'kevin') => (<td>
-  <input
-    type="checkbox"
-    checked={albums[index].listened[name]}
-    onChange={async () => {
-      setAlbums(albums.map((album, i) => i === index ? { ...album, listened: { ...album.listened, [name]: !album.listened[name] } } : album));
-    }}
-  />
-</td>)
+const checkbox = (albums: Album[], setAlbums: (albums: Album[]) => void, index: number, name: 'lauren' | 'kevin') => (
+  <td role="gridcell">
+    <input
+      type="checkbox"
+      aria-label={`Mark "${albums[index].title}" as listened by ${name}`}
+      checked={albums[index].listened[name]}
+      onChange={async () => {
+        setAlbums(albums.map((album, i) => i === index ? { ...album, listened: { ...album.listened, [name]: !album.listened[name] } } : album));
+      }}
+    />
+  </td>
+)
 
 const renderTable = ({ setAlbums, albums, count }: TableProps) => (
   <>
-    <table className="table" style={{ margin: "20px 0" }}>
-      <thead style={{ position: 'sticky', top: '2em', backgroundColor: '#1b9b8a', zIndex: 1, borderBottom: '2px solid #d87d3c', color: '#f5efe4', fontWeight: 600, borderRadius: '8px 8px 0 0' }}>
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Artist</th>
-          <th scope="col">Kevin ({count.kevin})</th>
-          <th scope="col">Lauren ({count.lauren})</th>
+    <table className="table" style={{ margin: "20px 0" }} role="grid">
+      <thead style={{ position: 'sticky', top: '2em', backgroundColor: '#1b9b8a', zIndex: 1, borderBottom: '2px solid #d87d3c', color: '#f5efe4', fontWeight: 600, borderRadius: '8px 8px 0 0' }} role="row">
+        <tr role="row">
+          <th scope="col" role="columnheader">Title</th>
+          <th scope="col" role="columnheader">Artist</th>
+          <th scope="col" role="columnheader">Kevin ({count.kevin})</th>
+          <th scope="col" role="columnheader">Lauren ({count.lauren})</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody role="rowgroup">
         {albums.map((album, index) => (
-          <tr key={album.title}>
-            <th scope="row">{album.title}</th>
-            <td>{album.artist}</td>
+          <tr key={album.title} role="row" data-album-title={album.title}>
+            <th scope="row" role="rowheader" data-artist={album.artist}>{album.title}</th>
+            <td role="gridcell">{album.artist}</td>
             {checkbox(albums, setAlbums, index, 'kevin')}
             {checkbox(albums, setAlbums, index, 'lauren')}
-
           </tr>
         ))}
       </tbody>
     </table>
     <button
       onClick={async () => {
-        async () => {
-          try {
-            await fetch("/albums/", {
-              method: "POST",
-              body: JSON.stringify({ albums })
-            })
-          } catch (error) {
-            console.error("Failed to update album progress", error);
-          }
+        try {
+          await fetch("/albums/", {
+            method: "POST",
+            body: JSON.stringify({ albums })
+          })
+        } catch (error) {
+          console.error("Failed to update album progress", error);
         }
       }}
-      aria-label="set album progress"
+      aria-label="Save album progress"
     >
       Submit Progress
     </button>

@@ -121,6 +121,8 @@ button:focus-visible {
 .table th {
   width: 200px;
   height: 80px;
+  padding: 12px;
+  vertical-align: middle;
 }
 
 .table thead th:first-child {
@@ -155,4 +157,198 @@ button:focus-visible {
 
 .table tbody tr:nth-child(even) td:last-child {
   border-radius: 0 8px 8px 0;
+}
+
+/* Improved checkbox styling */
+.table input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #1b9b8a;
+  transition: transform 0.15s ease-in-out;
+}
+
+.table input[type="checkbox"]:hover {
+  transform: scale(1.15);
+}
+
+.table input[type="checkbox"]:checked {
+  accent-color: #d87d3c;
+}
+
+.table input[type="checkbox"]:focus-visible {
+  outline: 2px solid #1b9b8a;
+  outline-offset: 2px;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 767px) {
+  .main-header {
+    padding: 16px 12px;
+    font-size: 22px;
+    margin: 0 auto 16px;
+    text-align: center;
+  }
+
+  .table-container {
+    padding: 0 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .table {
+    padding: 0;
+    margin: 12px 0 !important;
+    display: block;
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  .table thead {
+    display: block;
+    background-color: #1b9b8a;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    position: sticky;
+    top: 2em;
+    z-index: 1;
+  }
+
+  .table thead tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    width: 100%;
+  }
+
+  .table thead th {
+    width: auto;
+    height: auto;
+    padding: 12px 8px;
+    background-color: #1b9b8a;
+    color: #f5efe4;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 0;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .table thead th:nth-child(1) {
+    text-align: left;
+    grid-column: 1;
+  }
+
+  .table thead th:nth-child(2) {
+    display: none;
+  }
+
+  .table thead th:nth-child(3) {
+    grid-column: 2;
+  }
+
+  .table thead th:nth-child(4) {
+    grid-column: 3;
+  }
+
+  .table tbody {
+    display: block;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(27, 155, 138, 0.1);
+    align-items: center;
+    width: 100%;
+  }
+
+  .table tbody tr:nth-child(odd) {
+    background-color: #c9b3a0;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #e8c8b8;
+  }
+
+  .table tbody th {
+    grid-column: 1;
+    width: auto;
+    height: auto;
+    text-align: left;
+    padding: 0;
+    border-radius: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2d3436;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .table tbody th::after {
+    content: attr(data-artist);
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+    order: 2;
+  }
+
+  .table tbody td {
+    width: auto;
+    padding: 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  .table tbody td:nth-child(2) {
+    display: none;
+  }
+
+  .table tbody td:nth-child(3) {
+    grid-column: 2;
+  }
+
+  .table tbody td:nth-child(4) {
+    grid-column: 3;
+  }
+
+  .table input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .table input[type="checkbox"]:hover {
+    transform: scale(1.15);
+  }
+}
+
+/* Tablet and desktop layout improvements */
+@media (min-width: 768px) {
+  .table input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+
+  .table tbody tr:hover {
+    background-color: rgba(27, 155, 138, 0.05);
+  }
 }
