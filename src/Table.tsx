@@ -75,12 +75,10 @@ export const Table = () => {
     'lauren': albums.filter((a) => a.listened.lauren).length,
   }
 
-  let loadingMessage: string[], table;
+  let table;
   if (loading) {
-    loadingMessage = ["Loading albums from API..."];
     table = null;
   } else {
-    loadingMessage = [];
     table = renderTable({ setAlbums, albums, count });
   }
   useEffect(() => {
