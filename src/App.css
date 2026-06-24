@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #c9b3a0;
 }
 
 .logo {
@@ -12,10 +13,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #1b9b8a99);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #d87d3c99);
 }
 
 @keyframes logo-spin {
@@ -35,8 +36,12 @@
 
 .card {
   padding: 2em;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #d4b896;
+  box-shadow: 0 2px 4px rgba(27, 155, 138, 0.05);
 }
 
 .read-the-docs {
-  color: #888;
+  color: #6b8a7f;
 }

@@ -12,6 +12,7 @@ type Album = {
 interface TableProps {
   setAlbums: (albums: Album[]) => void;
   albums: Album[];
+  count: { kevin: number; lauren: number };
 }
 
 const checkbox = (albums: Album[], setAlbums: (albums: Album[]) => void, index: number, name: 'lauren' | 'kevin') => (<td>
@@ -24,15 +25,15 @@ const checkbox = (albums: Album[], setAlbums: (albums: Album[]) => void, index: 
   />
 </td>)
 
-const renderTable = ({ setAlbums, albums, }: TableProps) => (
+const renderTable = ({ setAlbums, albums, count }: TableProps) => (
   <>
     <table className="table" style={{ margin: "20px 0" }}>
-      <thead style={{ position: 'sticky', top: '2em', backgroundColor: '#242424', zIndex: 1, borderBottom: '1px solid #646cff' }}>
+      <thead style={{ position: 'sticky', top: '2em', backgroundColor: '#1b9b8a', zIndex: 1, borderBottom: '2px solid #d87d3c', color: '#f5efe4', fontWeight: 600, borderRadius: '8px 8px 0 0' }}>
         <tr>
           <th scope="col">Title</th>
           <th scope="col">Artist</th>
-          <th scope="col">Kevin</th>
-          <th scope="col">Lauren</th>
+          <th scope="col">Kevin ({count.kevin})</th>
+          <th scope="col">Lauren ({count.lauren})</th>
         </tr>
       </thead>
       <tbody>
@@ -79,8 +80,8 @@ export const Table = () => {
     loadingMessage = ["Loading albums from API..."];
     table = null;
   } else {
-    loadingMessage = [`Kevin Count: ${count.kevin}`, `Lauren Count: ${count.lauren}`];
-    table = renderTable({ setAlbums, albums });
+    loadingMessage = [];
+    table = renderTable({ setAlbums, albums, count });
   }
   useEffect(() => {
     // 1. Define the async function inside useEffect
@@ -101,9 +102,6 @@ export const Table = () => {
 
   return (
     <div className="table-container">
-      <div className="header-bar">
-        {loadingMessage.map((msg: string) => (<span key={msg}>{msg}</span>))}
-      </div>
       {table}
     </div>
   )
